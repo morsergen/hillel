@@ -23,6 +23,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereUpdatedAt($value)
  * @mixin \Eloquent
  * @method static \Illuminate\Database\Eloquent\Builder|Role getIdCustomerRole()
+ * @method static \Illuminate\Database\Eloquent\Builder|Role getAdminRole()
+ * @method static \Illuminate\Database\Eloquent\Builder|Role getCustomerRole()
  */
 class Role extends Model
 {
