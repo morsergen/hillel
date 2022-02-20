@@ -22,21 +22,40 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Role whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @method static \Illuminate\Database\Eloquent\Builder|Role getIdCustomerRole()
  */
 class Role extends Model
 {
     use HasFactory;
 
-    public const ROLE_ADMIN = 'Admin';
+    public const ROLE_ADMIN_ALIAS = 'admin';
 
-    public const ROLE_CUSTOMER = 'Customer';
+    public const ROLE_CUSTOMER_ALIAS = 'customer';
 
     public const ALL_ROLES = [
-        'admin' => self::ROLE_ADMIN,
-        'customer' => self::ROLE_CUSTOMER,
+        self::ROLE_ADMIN_ALIAS => 'Admin',
+        self::ROLE_CUSTOMER_ALIAS => 'Customer',
     ];
 
     protected $fillable = [
         'name'
     ];
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeGetCustomerRole($query): mixed
+    {
+        return $query->where('alias', self::ROLE_CUSTOMER_ALIAS)->first();
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function scopeGetAdminRole($query): mixed
+    {
+        return $query->where('alias', self::ROLE_ADMIN_ALIAS)->first();
+    }
 }
