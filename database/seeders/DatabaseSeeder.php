@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
         app()->call(RolesTableSeeder::class);
         app()->call(UserTableSeeder::class);
         app()->call(CategoriesTableSeeder::class);
+        app()->call(OrderStatusesTableSeeder::class);
     }
 }
