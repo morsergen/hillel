@@ -20,9 +20,10 @@ class CategoriesTableSeeder extends Seeder
             while (($row = fgetcsv($handle, 2000)) !== FALSE)
             {
                 Category::firstOrCreate([
-                    'name' => $row[0],
-                    'slug' => $row[1],
-                    'description' => $row[2],
+                    'id' => $row[0],
+                    'name' => $row[1],
+                    'slug' => $row[2],
+                    'description' => $row[3],
                 ]);
             }
             fclose($handle);
