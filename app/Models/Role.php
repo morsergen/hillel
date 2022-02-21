@@ -25,6 +25,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Role getIdCustomerRole()
  * @method static \Illuminate\Database\Eloquent\Builder|Role getAdminRole()
  * @method static \Illuminate\Database\Eloquent\Builder|Role getCustomerRole()
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
+ * @property-read int|null $users_count
  */
 class Role extends Model
 {
@@ -42,6 +44,14 @@ class Role extends Model
     protected $fillable = [
         'name'
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function users()
+    {
+        return $this->hasMany(\App\Models\User::class);
+    }
 
     /**
      * @param $query
