@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,6 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        app()->call(RolesTableSeeder::class);
+        app()->call(UserTableSeeder::class);
+        app()->call(CategoriesTableSeeder::class);
+        app()->call(OrderStatusesTableSeeder::class);
+        app()->call(ProductsTableSeeder::class);
     }
 }
