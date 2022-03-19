@@ -9,3 +9,7 @@
 <a class="dropdown-item" href="{{route('admin.products.index')}}" role="button">
     {{ __('Admin Products') }}
 </a>
+
+<a class="dropdown-item" href="{{route('admin.users.index')}}" role="button">
+    {{ __('Admin Users') }}
+</a>
