@@ -29,7 +29,7 @@ class RegisterUserRequest extends FormRequest
             'surname' => ['required', 'string', 'min:3', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'birthdate' => ['required', 'date', 'before_or_equal:-18 years'],
-            'phone' => ['required', 'string', new PhoneRule()],
+            'phone' => ['required', 'string', new PhoneRule(), 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
     }
