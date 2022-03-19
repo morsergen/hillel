@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DashBoardController;
+use App\Http\Controllers\Admin\ProductsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +21,7 @@ Auth::routes();
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function(){
-    Route::get('/', \App\Http\Controllers\Admin\DashBoardController::class)->name('home');
-    Route::resource('/categories', \App\Http\Controllers\Admin\CategoryController::class);
+    Route::get('/', DashBoardController::class)->name('home');
+    Route::resource('/categories', CategoryController::class);
+    Route::resource('/products', ProductsController::class);
 });
