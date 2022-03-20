@@ -14,6 +14,9 @@
 
                     <div class="card-body">
                         <div class="row">
+                            <div class="col-sm-10"><img src="{{ asset('storage/' . $category->thumbnail) }}" width="450" /></div>
+                        </div>
+                        <div class="row">
                             <div class="col-sm-2">ID</div>
                             <div class="col-sm-10">{{ $category->id }}</div>
                         </div>

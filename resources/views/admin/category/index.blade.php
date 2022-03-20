@@ -14,6 +14,7 @@
                     <table class="admin">
                         <tr>
                             <th>ID</th>
+                            <th>Thumbnail</th>
                             <th>Name</th>
                             <th>Count products</th>
                             <th>Slug</th>
@@ -23,6 +24,7 @@
                         @foreach($categories as $category)
                             <tr>
                                 <td>{{ $category->id }}</td>
+                                <td><img src="{{ asset('storage/' . $category->thumbnail) }}" width="50" /></td>
                                 <td>{{ $category->name }}</td>
                                 <td>{{ $category->products_count }}</td>
                                 <td>{{ $category->slug }}</td>

@@ -13,9 +13,10 @@
                     </div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('admin.categories.update', ['category' => $category]) }}">
+                        <form method="POST" action="{{ route('admin.categories.update', ['category' => $category]) }}" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
+                            <input type="hidden" name="id" value="{{ $category->id }}">
 
                             <div class="row mb-3">
                                 <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
@@ -25,6 +26,21 @@
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <label for="thumbnail" class="col-md-4 col-form-label text-md-end">{{ __('Thumbnail') }}</label>
+                                <div class="col-md-1">
+                                    <img src="{{ asset('storage/' . $category->thumbnail) }}" width="70" />
+                                </div>
+                                <div class="col-md-5">
+                                    <input id="thumbnail" type="file" class="form-control @error('thumbnail') is-invalid @enderror" name="thumbnail">
+                                    @error('thumbnail')
+                                    <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
                                     @enderror
                                 </div>
                             </div>
