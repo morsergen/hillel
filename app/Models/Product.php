@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Services\ImageService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\Product
@@ -55,4 +57,17 @@ class Product extends Model
         'in_stock',
         'thumbnail',
     ];
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function setThumbnailAttribute($image)
+    {
+        if (!empty($this->attributes['thumbnail'])) {
+            ImageService::remove($this->attributes['thumbnail']);
+        }
+        $this->attributes['thumbnail'] = ImageService::upload($image);
+    }
 }

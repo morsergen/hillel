@@ -1,0 +1,30 @@
+.admin-area table.admin {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0px auto;
+}
+
+.admin-area table.admin th, table.admin td {
+    padding: 10px 15px;
+}
+
+.admin-area table.admin tr:nth-child(even) {
+    background: #e1e1e1;
+}
+
+.admin-area .div_paginate {
+    text-align: center;
+}
+
+.admin-area table.admin .actions {
+    font-size: 15px !important;
+}
+
+.admin-area textarea.description {
+    width: 100%;
+}
+.admin-area .vcenter {
+    display: inline-block;
+    float: none;
+    vertical-align: middle;
+}
