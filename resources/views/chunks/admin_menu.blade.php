@@ -13,3 +13,5 @@
 <a class="dropdown-item" href="{{route('admin.users.index')}}" role="button">
     {{ __('Admin Users') }}
 </a>
+
+<hr style="margin: 0">

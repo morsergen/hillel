@@ -3,34 +3,23 @@
 namespace App\Services;
 
 use App\Services\Contracts\ImageServiceInterface;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Model;
 
 class ImageService implements ImageServiceInterface
 {
-    public static function upload($image): string
+    public function sync(Model $model, string $methodName, array $images = [])
     {
-        if (is_null($image)) {
-            return '';
+        if (!method_exists($model, $methodName)) {
+            throw new \Exception('#' . $model::class . 'doesn\'t nave #' . $methodName);
         }
 
-        if ($isString = is_string($image)) {
-            $imageData = explode('.', $image);
+        foreach ($model->$methodName as $image) {
+            FileUploadService::remove($image->path);
+            $model->$methodName()->delete(['path' => $image]);
         }
 
-        $imagePath = implode('/', str_split(Str::random(8), 2))
-            . '/'
-            . Str::random()
-            . '.' . (!$isString ? $image->getClientOriginalExtension() : $imageData[1]);
-
-        Storage::put('public/' . $imagePath, File::get($image));
-
-        return $imagePath;
-    }
-
-    public static function remove($image)
-    {
-        Storage::delete($image);
+        foreach ($images as $image) {
+            $model->$methodName()->create(['path' => $image]);
+        }
     }
 }

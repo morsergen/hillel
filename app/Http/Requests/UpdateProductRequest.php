@@ -33,6 +33,8 @@ class UpdateProductRequest extends FormRequest
             'short_description' => ['required', 'string', 'min:5', 'max:100'],
             'description' => ['required', 'string', 'min:10'],
             'thumbnail' => ['image:jpeg,png'],
+            'images' => ['array', 'max:6'],
+            'images.*' => ['image:jpeg,png'],
         ];
     }
 }

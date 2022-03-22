@@ -49,7 +49,7 @@
                             <div class="row mb-3">
                                 <label for="thumbnail" class="col-md-4 col-form-label text-md-end">{{ __('Thumbnail') }}</label>
                                 <div class="col-md-1">
-                                    <img src="{{ asset('storage/' . $product->thumbnail) }}" width="70" />
+                                    <img src="{{ asset('storage/' . $product->thumbnail) }}" id="thumbnail-preview" width="70" />
                                 </div>
                                 <div class="col-md-5">
                                     <input id="thumbnail" type="file" class="form-control @error('thumbnail') is-invalid @enderror" name="thumbnail">
@@ -133,6 +133,31 @@
                                 </div>
                             </div>
 
+                            <div class="row mb-3">
+                                <label for="images" class="col-md-4 col-form-label text-md-end">{{ __('Images') }}</label>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row images-wrapper">
+                                                @foreach($product->images as $image)
+                                                    <div class="col-sm-4 d-flex justify-content-center align-items-center">
+                                                        <img src="{{ asset('storage/' . $image->path) }}" class="card-img-top" style="max-width: 80%; margin: 0 auto; display: block;">
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <input type="file" name="images[]" class="form-control @error('images') is-invalid @enderror" onChange="readMultiFiles" id="images" multiple>
+                                            @error('images')
+                                            <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
@@ -147,3 +172,7 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/images-preview.js') }}" defer></script>
+@endpush

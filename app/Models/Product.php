@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use App\Services\ImageService;
+use App\Services\FileUploadService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
  * App\Models\Product
@@ -45,6 +46,8 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $perPage = 5;
+
     protected $fillable = [
         'category_id',
         'title',
@@ -66,8 +69,13 @@ class Product extends Model
     public function setThumbnailAttribute($image)
     {
         if (!empty($this->attributes['thumbnail'])) {
-            ImageService::remove($this->attributes['thumbnail']);
+            FileUploadService::remove($this->attributes['thumbnail']);
         }
-        $this->attributes['thumbnail'] = ImageService::upload($image);
+        $this->attributes['thumbnail'] = FileUploadService::upload($image);
+    }
+
+    public function images(): MorphMany
+    {
+        return $this->morphMany(Image::class, 'imageable');
     }
 }

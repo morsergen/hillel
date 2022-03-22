@@ -6,10 +6,18 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3>{{ __('Products') }} ({{$products->count()}})</h3>
-                        <div>
-                            <a href="{{route('admin.products.create')}}">Create new</a>
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <h3>{{ __('Products') }} ({{$products->count()}})</h3>
+                                <div>
+                                    <a href="{{route('admin.products.create')}}">Create new</a>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="div_paginate">{{ $products->links('admin/pagination/default') }}</div>
+                            </div>
                         </div>
+
                     </div>
                     <table class="admin">
                         <tr>

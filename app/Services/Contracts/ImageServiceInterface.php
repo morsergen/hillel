@@ -2,16 +2,9 @@
 
 namespace App\Services\Contracts;
 
+use Illuminate\Database\Eloquent\Model;
+
 interface ImageServiceInterface
 {
-    /**
-     * @param $image
-     * @return string
-     */
-    public static function upload($image): string;
-
-    /**
-     * @param $image
-     */
-    public static function remove($image);
+    public function sync(Model $model, string $methodName, array $images = []);
 }

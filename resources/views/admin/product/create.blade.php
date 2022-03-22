@@ -34,7 +34,7 @@
                                     <select id="category_id" name="category_id" class="form-control @error('category_id') is-invalid @enderror" required>
                                         <option value="" disabled selected>{{ __('Select category') }}</option>
                                         @foreach($categories as $category)
-                                            <option value="{{$category->id}}">{{$category->name}}</option>
+                                            <option value="{{$category->id}}" {{ (old('category_id') == $category->id ? 'selected' : '') }}>{{ $category->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('category_id')
@@ -47,7 +47,10 @@
 
                             <div class="row mb-3">
                                 <label for="thumbnail" class="col-md-4 col-form-label text-md-end">{{ __('Thumbnail') }}</label>
-                                <div class="col-md-6">
+                                <div class="col-md-1">
+                                    <img src="#" id="thumbnail-preview" alt="" width="70">
+                                </div>
+                                <div class="col-md-5">
                                     <input id="thumbnail" type="file" class="form-control @error('thumbnail') is-invalid @enderror" name="thumbnail" required>
                                     @error('thumbnail')
                                     <span class="invalid-feedback" role="alert">
@@ -129,6 +132,25 @@
                                 </div>
                             </div>
 
+                            <div class="row mb-3">
+                                <label for="images" class="col-md-4 col-form-label text-md-end">{{ __('Images') }}</label>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row images-wrapper"></div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <input type="file" name="images[]" class="form-control @error('images') is-invalid @enderror" onChange="readMultiFiles" id="images" multiple>
+                                            @error('images')
+                                            <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
@@ -143,3 +165,7 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="{{ asset('js/images-preview.js') }}" defer></script>
+@endpush

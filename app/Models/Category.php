@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Services\ImageService;
+use App\Services\FileUploadService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -48,8 +48,8 @@ class Category extends Model
     public function setThumbnailAttribute($image)
     {
         if (!empty($this->attributes['thumbnail'])) {
-            ImageService::remove($this->attributes['thumbnail']);
+            FileUploadService::remove($this->attributes['thumbnail']);
         }
-        $this->attributes['thumbnail'] = ImageService::upload($image);
+        $this->attributes['thumbnail'] = FileUploadService::upload($image);
     }
 }

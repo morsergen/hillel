@@ -14,8 +14,9 @@
 
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-sm-10"><img src="{{ asset('storage/' . $product->thumbnail) }}" width="450" /></div>
+                            <div class="col-sm-12 text-center"><img src="{{ asset('storage/' . $product->thumbnail) }}" width="450" /></div>
                         </div>
+                        <hr>
                         <div class="row">
                             <div class="col-sm-2">ID</div>
                             <div class="col-sm-10">{{ $product->id }}</div>
@@ -51,6 +52,15 @@
                         <div class="row">
                             <div class="col-sm-2">In stock</div>
                             <div class="col-sm-10">{{ $product->in_stock }}</div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-2">Gallery</div>
+                            <div class="col-sm-10">
+                                @foreach($product->images as $image)
+                                    <img src="{{ asset('storage/' . $image->path) }}" height="200" />
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>
