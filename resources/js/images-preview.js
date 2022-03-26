@@ -1,12 +1,11 @@
 if (window.FileReader) {
     document.getElementById("images").onchange = function () {
-        let counter = -1,
-            file;
+        let counter = -1, file;
 
-        $('.images-wrapper').html('');
+        //$('.images-wrapper').html('');
 
-        let template = `<div class="col-sm-4 d-flex justify-content-center align-items-center">
-                                  <img src="__url__" class="card-img-top" style="max-width: 80%; margin: 0 auto; display: block;">
+        let template = `<div class="col-sm-4 justify-content-center align-items-center position-relative">
+                                    <img src="__url__" class="card-img-top" style="max-width: 80%; margin: 0 auto; display: block;">
                                 </div>`;
 
         while (file = this.files[++counter]) {

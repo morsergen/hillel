@@ -16,7 +16,6 @@
                         <form method="POST" action="{{ route('admin.products.update', ['product' => $product]) }}" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
-                            <input type="hidden" name="id" value="{{ $product->id }}">
 
                             <div class="row mb-3">
                                 <label for="title" class="col-md-4 col-form-label text-md-end">{{ __('Title') }}</label>
@@ -140,7 +139,12 @@
                                         <div class="col-md-12">
                                             <div class="row images-wrapper">
                                                 @foreach($product->images as $image)
-                                                    <div class="col-sm-4 d-flex justify-content-center align-items-center">
+                                                    <div class="col-sm-4 justify-content-center align-items-center position-relative">
+                                                        <button type="button" class="close close_preview_btn" aria-label="Close"
+                                                            data-route="{{ route('ajax.image.delete', ['image' => $image]) }}"
+                                                        >
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
                                                         <img src="{{ asset('storage/' . $image->path) }}" class="card-img-top" style="max-width: 80%; margin: 0 auto; display: block;">
                                                     </div>
                                                 @endforeach
@@ -175,4 +179,5 @@
 
 @push('scripts')
     <script src="{{ asset('js/images-preview.js') }}" defer></script>
+    <script src="{{ asset('js/images-actions.js') }}" defer></script>
 @endpush

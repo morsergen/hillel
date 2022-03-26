@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateCategoryRequest extends FormRequest
+class DeleteAjaxImageRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,12 +23,8 @@ class UpdateCategoryRequest extends FormRequest
      */
     public function rules()
     {
-        $categoryId = $this->route('category')->id;
-
         return [
-            'name' => ['required', 'string', 'min:3', 'max:50', 'unique:categories,name,' . $categoryId],
-            'description' => ['nullable', 'string', 'min:10'],
-            'thumbnail' => ['image:jpeg,png'],
+            'image_id' => ['reqired', 'exists:images,id']
         ];
     }
 }
