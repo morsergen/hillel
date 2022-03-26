@@ -28,3 +28,7 @@
     float: none;
     vertical-align: middle;
 }
+
+.admin-area .images-wrapper div {
+    max-height: 100px;
+}
