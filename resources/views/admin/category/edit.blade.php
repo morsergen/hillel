@@ -16,7 +16,6 @@
                         <form method="POST" action="{{ route('admin.categories.update', ['category' => $category]) }}" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
-                            <input type="hidden" name="id" value="{{ $category->id }}">
 
                             <div class="row mb-3">
                                 <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>

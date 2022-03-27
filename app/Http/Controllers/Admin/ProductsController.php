@@ -27,6 +27,7 @@ class ProductsController extends Controller
     public function index(): View|Factory|Application
     {
         $products = Product::with('category')->paginate();
+
         return view('admin/product/index', compact('products'));
     }
 
@@ -38,6 +39,7 @@ class ProductsController extends Controller
     public function create(): View|Factory|Application
     {
         $categories = Category::all();
+
         return view('admin/product/create', compact('categories'));
     }
 
@@ -62,7 +64,7 @@ class ProductsController extends Controller
             $product = $category->products()->create(
                 array_merge($validatedData, ['slug' => \Str::slug($validatedData['title'])])
             );
-            $imageService->sync($product, 'images', $images);
+            $imageService->attach($product, 'images', $images);
         }, 5);
 
         return redirect(route('admin.products.index'))->with('success', __('Product created successfully'));
@@ -88,6 +90,7 @@ class ProductsController extends Controller
     public function edit(Product $product): View|Factory|Application
     {
         $categories = Category::all();
+
         return view('admin/product/edit', compact('product', 'categories'));
     }
 
@@ -110,9 +113,7 @@ class ProductsController extends Controller
             $product->update(
                 array_merge($validatedData, ['slug' => \Str::slug($validatedData['title'])])
             );
-            if (!empty($images)) {
-                $imageService->sync($product, 'images', $images);
-            }
+            $imageService->attach($product, 'images', $images);
         }, 5);
 
         return redirect(route('admin.products.index'))->with('success', __('Product updated successfully'));
@@ -125,14 +126,16 @@ class ProductsController extends Controller
      * @param ImageService $imageService
      * @return Application|Redirector|RedirectResponse
      * @throws Exception
+     * @throws Throwable
      */
     public function destroy(Product $product, ImageService $imageService): Redirector|RedirectResponse|Application
     {
         \DB::transaction(function() use ($imageService, $product) {
-            $imageService->sync($product, 'images', []);
+            $imageService->detach($product, 'images');
             FileUploadService::remove($product->thumbnail);
             $product->delete();
         }, 5);
+
         return redirect(route('admin.products.index'))->with('success', __('Product deleted successfully'));
     }
 }
