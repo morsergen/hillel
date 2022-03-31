@@ -30,3 +30,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
 });
 
 Route::delete('ajax/image/{image}', DeleteImageController::class)->name('ajax.image.delete');
+
+Route::get('/category/{category}', [App\Http\Controllers\CategoryController::class, 'show'])->name('categories.show');
+Route::get('/product/{product}', [App\Http\Controllers\ProductController::class, 'show'])->name('products.show');

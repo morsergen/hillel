@@ -2,27 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Category;
+use Illuminate\Contracts\Support\Renderable;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
+    /***
+     * @return Renderable
      */
-    public function __construct()
+    public function index(): Renderable
     {
-        $this->middleware('auth');
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
-    public function index()
-    {
-        return view('home');
+        $categories = Category::with('products')->get();
+        return view('home', compact('categories'));
     }
 }
