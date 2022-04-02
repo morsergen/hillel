@@ -23,7 +23,7 @@
             <h4>
                 <form action="{{ route('cart.add', $product) }}" method="POST">
                     @csrf
-                    <input type="number" name="product_count" value="1" min="1" />
+                    <input type="number" name="product_count" value="1" min="1" max="{{ $product->in_stock }}" />
                     <button type="submit" class="btn btn-success">добавить в корзину</button>
                 </form>
             </h4>
