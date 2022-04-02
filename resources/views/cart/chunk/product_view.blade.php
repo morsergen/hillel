@@ -3,7 +3,11 @@
         <p><img src="{{ asset('storage/' . $row->model->thumbnail) }}" width="75" /></p>
     </td>
     <td>
-        <p><strong><?php echo $row->name; ?></strong></p>
+        <p>
+            <a href="{{ route('products.show', $row->model) }}">
+                <strong><?php echo $row->name; ?></strong>
+            </a>
+        </p>
         {{--        <p><?php echo ($row->options->has('size') ? $row->options->size : ''); ?></p>--}}
     </td>
     <td>
