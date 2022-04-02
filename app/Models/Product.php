@@ -91,10 +91,8 @@ class Product extends Model
     {
         return new Attribute(
             get: function() {
-                return round(
-                    is_null($this->price) ? $this->price : ($this->price - ($this->price * ($this->discount / 100))),
-                    2
-                );
+                $price = is_null($this->price) ? $this->price : ($this->price - ($this->price * ($this->discount / 100)));
+                return $price  < 0 ? 0 : round($price, 2);
             }
         );
     }
