@@ -41,3 +41,9 @@ Route::prefix('cart')->name('cart.')->group(function(){
     Route::put('/{product}', [CartController::class, 'update'])->name('update');
     Route::delete('/', [CartController::class, 'delete'])->name('delete');
 });
+
+Route::prefix('account')->name('account.')->middleware(['auth'])->group(function() {
+    Route::get('/', [App\Http\Controllers\Account\UserController::class, 'index'])->name('index');
+    Route::get('/edit', [App\Http\Controllers\Account\UserController::class, 'edit'])->name('edit');
+    Route::put('/update', [App\Http\Controllers\Account\UserController::class, 'update'])->name('update');
+});

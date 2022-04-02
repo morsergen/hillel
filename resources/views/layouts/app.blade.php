@@ -74,6 +74,8 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    @include('chunks.account_menu')
+
                                     @if(is_admin(Auth::user()))
                                         @include('chunks.admin_menu')
                                     @endif
