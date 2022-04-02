@@ -42,6 +42,18 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('cart.index') }}">
+                                <div style="position: relative;">
+                                    <span style="position: absolute; top: -5px; right: -5px; color: red;">
+                                        {{ \Gloudemans\Shoppingcart\Facades\Cart::instance('cart')->count() > 0 ? \Gloudemans\Shoppingcart\Facades\Cart::instance('cart')->count() : '' }}
+                                    </span>
+                                    <img src="/images/cart_icon.png" width="30">
+                                </div>
+                            </a>
+                        </li>
+
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
@@ -86,9 +98,11 @@
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12">
-                        @if(session('error'))
+                        @if($errors->any())
                             <div class="alert alert-danger">
-                                {{ session('error') }}
+                                @foreach($errors->all() as $error)
+                                    {{ $error }}
+                                @endforeach
                             </div>
                         @endif
                         @if(session('warning'))

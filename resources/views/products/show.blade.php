@@ -21,8 +21,11 @@
             </h1>
             <hr>
             <h4>
-                <input type="number" value="1" min="1" max="{{ $product->in_stock }}" />
-                <button type="button" class="btn btn-success">добавить в корзину</button>
+                <form action="{{ route('cart.add', $product) }}" method="POST">
+                    @csrf
+                    <input type="number" name="product_count" value="1" min="1" />
+                    <button type="submit" class="btn btn-success">добавить в корзину</button>
+                </form>
             </h4>
             <hr>
             <p>Категория:
