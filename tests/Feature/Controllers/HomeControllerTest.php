@@ -21,18 +21,6 @@ class HomeControllerTest extends TestCase
      *
      * @return void
      */
-    public function test_redirect_to_login_page_if_not_auth_user()
-    {
-        $response = $this->get(route('home'));
-
-        $response->assertStatus(302)->assertRedirect(route('login'));
-    }
-
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
     public function test_index_page_with_auth_admin_user()
     {
         $role = Role::getAdminRole();
@@ -40,7 +28,7 @@ class HomeControllerTest extends TestCase
 
         $response = $this->actingAs($user)->get(route('home'));
 
-        $response->assertOk()->assertSee('Dashboard');
+        $response->assertOk()->assertSee('Logout');
     }
 
     /**
@@ -55,6 +43,6 @@ class HomeControllerTest extends TestCase
 
         $response = $this->actingAs($user)->get(route('home'));
 
-        $response->assertOk()->assertSee('Dashboard');
+        $response->assertOk()->assertSee('Logout');
     }
 }
