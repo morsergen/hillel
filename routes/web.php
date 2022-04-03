@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Ajax\DeleteImageController;
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,3 +31,19 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
 });
 
 Route::delete('ajax/image/{image}', DeleteImageController::class)->name('ajax.image.delete');
+
+Route::get('/category/{category}', [App\Http\Controllers\CategoryController::class, 'show'])->name('categories.show');
+Route::get('/product/{product}', [App\Http\Controllers\ProductController::class, 'show'])->name('products.show');
+
+Route::prefix('cart')->name('cart.')->group(function(){
+    Route::get('/', [CartController::class, 'index'])->name('index');
+    Route::post('/{product}', [CartController::class, 'add'])->name('add');
+    Route::put('/{product}', [CartController::class, 'update'])->name('update');
+    Route::delete('/', [CartController::class, 'delete'])->name('delete');
+});
+
+Route::prefix('account')->name('account.')->middleware(['auth'])->group(function() {
+    Route::get('/', [App\Http\Controllers\Account\UserController::class, 'index'])->name('index');
+    Route::get('/edit', [App\Http\Controllers\Account\UserController::class, 'edit'])->name('edit');
+    Route::put('/update', [App\Http\Controllers\Account\UserController::class, 'update'])->name('update');
+});

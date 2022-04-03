@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Services\FileUploadService;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -84,5 +85,15 @@ class Product extends Model
     public function images(): MorphMany
     {
         return $this->morphMany(Image::class, 'imageable');
+    }
+
+    public function endPrice(): Attribute
+    {
+        return new Attribute(
+            get: function() {
+                $price = is_null($this->price) ? $this->price : ($this->price - ($this->price * ($this->discount / 100)));
+                return $price  < 0 ? 0 : round($price, 2);
+            }
+        );
     }
 }
