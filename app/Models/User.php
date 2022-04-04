@@ -103,4 +103,11 @@ class User extends Authenticatable
             }
         );
     }
+
+    protected function instanceCartName(): Attribute
+    {
+        return new Attribute(
+            get: fn() => $this->id . '_' . $this->email
+        );
+    }
 }
