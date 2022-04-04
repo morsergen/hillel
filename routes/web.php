@@ -44,6 +44,10 @@ Route::prefix('cart')->name('cart.')->group(function(){
 
 Route::prefix('account')->name('account.')->middleware(['auth'])->group(function() {
     Route::get('/', [App\Http\Controllers\Account\UserController::class, 'index'])->name('index');
-    Route::get('/edit', [App\Http\Controllers\Account\UserController::class, 'edit'])->name('edit');
-    Route::put('/update', [App\Http\Controllers\Account\UserController::class, 'update'])->name('update');
+    Route::get('edit', [App\Http\Controllers\Account\UserController::class, 'edit'])->name('edit');
+    Route::put('update', [App\Http\Controllers\Account\UserController::class, 'update'])->name('update');
+
+    Route::get('{user}/edit', [App\Http\Controllers\Account\UserController::class, 'editByUser'])
+        ->can('view', 'user')
+        ->name('editByUser');
 });
