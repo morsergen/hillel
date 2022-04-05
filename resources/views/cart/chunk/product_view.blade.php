@@ -20,7 +20,7 @@
         </form>
     </td>
     <td><?php echo $row->price; ?></td>
-    <td><?php echo $row->total; ?></td>
+    <td><?php echo $row->subtotal; ?></td>
     <td>
         <form action="{{ route('cart.delete') }}" method="POST">
             @csrf

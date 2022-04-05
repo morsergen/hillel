@@ -19,6 +19,9 @@
                             @include('cart.chunk.product_subtotal')
                         </tfoot>
                     </table>
+                    <div class="text-center">
+                        <a href="{{ route('checkout') }}" class="btn btn-outline-success">{{ __('Process to checkout') }}</a>
+                    </div>
                 @else
                     <h3 class="text-center">{{ __('You cart is empty') }}</h3>
                 @endif

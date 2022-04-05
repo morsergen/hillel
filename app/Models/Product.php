@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
@@ -45,6 +46,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property-read \App\Models\Category $category
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Image[] $images
  * @property-read int|null $images_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $products
+ * @property-read int|null $products_count
  */
 class Product extends Model
 {
@@ -70,6 +73,22 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    /**
+     * @return MorphMany
+     */
+    public function images(): MorphMany
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class);
+    }
+
     public function setThumbnailAttribute($image)
     {
         if (env('APP_ENV') == 'testing') {
@@ -80,11 +99,6 @@ class Product extends Model
             }
             $this->attributes['thumbnail'] = FileUploadService::upload($image);
         }
-    }
-
-    public function images(): MorphMany
-    {
-        return $this->morphMany(Image::class, 'imageable');
     }
 
     public function endPrice(): Attribute
