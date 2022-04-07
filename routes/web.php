@@ -6,6 +6,8 @@ use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Ajax\DeleteImageController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -44,6 +46,19 @@ Route::prefix('cart')->name('cart.')->group(function(){
 
 Route::prefix('account')->name('account.')->middleware(['auth'])->group(function() {
     Route::get('/', [App\Http\Controllers\Account\UserController::class, 'index'])->name('index');
-    Route::get('/edit', [App\Http\Controllers\Account\UserController::class, 'edit'])->name('edit');
-    Route::put('/update', [App\Http\Controllers\Account\UserController::class, 'update'])->name('update');
+    Route::get('edit', [App\Http\Controllers\Account\UserController::class, 'edit'])->name('edit');
+    Route::put('update', [App\Http\Controllers\Account\UserController::class, 'update'])->name('update');
+
+    Route::get('{user}/edit', [App\Http\Controllers\Account\UserController::class, 'editByUser'])
+        ->can('view', 'user')
+        ->name('editByUser');
+});
+
+Route::middleware(['auth'])->group(function() {
+    Route::get('checkout', CheckoutController::class)->name('checkout');
+    Route::post('order', [OrderController::class, 'create'])->name('order.create');
+    Route::get('thank-you-page/{order}', [OrderController::class, 'thankYouPage'])
+        ->can('view', 'order')
+        ->name('thank-you-page');
+    Route::get('error-page', [OrderController::class, 'errorPage'])->name('error-page');
 });
