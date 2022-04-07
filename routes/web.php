@@ -8,6 +8,7 @@ use App\Http\Controllers\Ajax\DeleteImageController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\WishListController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,6 +53,8 @@ Route::prefix('account')->name('account.')->middleware(['auth'])->group(function
     Route::get('{user}/edit', [App\Http\Controllers\Account\UserController::class, 'editByUser'])
         ->can('view', 'user')
         ->name('editByUser');
+
+    Route::get('wish-list', App\Http\Controllers\Account\WishListController::class)->name('wish-list');
 });
 
 Route::middleware(['auth'])->group(function() {
@@ -61,4 +64,7 @@ Route::middleware(['auth'])->group(function() {
         ->can('view', 'order')
         ->name('thank-you-page');
     Route::get('error-page', [OrderController::class, 'errorPage'])->name('error-page');
+
+    Route::get('wishlist/{product}/add', [WishListController::class, 'add'])->name('wishlist.add');
+    Route::delete('wishlist/{product}/delete', [WishListController::class, 'delete'])->name('wishlist.delete');
 });

@@ -48,6 +48,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property-read int|null $images_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $products
  * @property-read int|null $products_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $followers
+ * @property-read int|null $followers_count
  */
 class Product extends Model
 {
@@ -87,6 +89,14 @@ class Product extends Model
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Order::class);
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function followers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'wish_list', 'product_id', 'user_id');
     }
 
     public function setThumbnailAttribute($image)
