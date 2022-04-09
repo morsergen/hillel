@@ -50,3 +50,8 @@
     padding: 10px;
     margin-bottom: 10px;
 }
+
+.poststars .stars { font-size:2em; }
+.poststars .stars input { display:none; }
+.poststars .stars label i { color: #cbcbcb; }
+.poststars .stars label i.checked { color: #36f302; }

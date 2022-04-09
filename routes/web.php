@@ -8,6 +8,7 @@ use App\Http\Controllers\Ajax\DeleteImageController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\WishListController;
 use Illuminate\Support\Facades\Route;
 
@@ -67,4 +68,7 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('wishlist/{product}/add', [WishListController::class, 'add'])->name('wishlist.add');
     Route::delete('wishlist/{product}/delete', [WishListController::class, 'delete'])->name('wishlist.delete');
+
+    Route::post('rating/{product}/add', [RatingController::class, 'add'])->name('rating.add');
+
 });

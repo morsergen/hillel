@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use willvincent\Rateable\Rateable;
 
 /**
  * App\Models\Product
@@ -53,7 +54,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  */
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, Rateable;
 
     protected $perPage = 5;
 
@@ -119,5 +120,13 @@ class Product extends Model
                 return $price  < 0 ? 0 : round($price, 2);
             }
         );
+    }
+
+    public function getUserRating()
+    {
+        return $this->ratings()->where([
+            ['rateable_id', '=', $this->id],
+            ['user_id', '=', auth()->id()]
+        ])->get()->last();
     }
 }
