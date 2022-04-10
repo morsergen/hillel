@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use willvincent\Rateable\Rateable;
 
 /**
  * App\Models\Product
@@ -48,10 +49,12 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
  * @property-read int|null $images_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $products
  * @property-read int|null $products_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $followers
+ * @property-read int|null $followers_count
  */
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, Rateable;
 
     protected $perPage = 5;
 
@@ -89,6 +92,14 @@ class Product extends Model
         return $this->belongsToMany(Order::class);
     }
 
+    /**
+     * @return BelongsToMany
+     */
+    public function followers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'wish_list', 'product_id', 'user_id');
+    }
+
     public function setThumbnailAttribute($image)
     {
         if (env('APP_ENV') == 'testing') {
@@ -109,5 +120,13 @@ class Product extends Model
                 return $price  < 0 ? 0 : round($price, 2);
             }
         );
+    }
+
+    public function getUserRating()
+    {
+        return $this->ratings()->where([
+            ['rateable_id', '=', $this->id],
+            ['user_id', '=', auth()->id()]
+        ])->get()->last();
     }
 }

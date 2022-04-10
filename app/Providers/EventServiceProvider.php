@@ -5,7 +5,9 @@ namespace App\Providers;
 use App\Listeners\UserLoginEventSubscriber;
 use App\Listeners\UserLogoutEventSubscriber;
 use App\Models\Image;
+use App\Models\Product;
 use App\Observers\ImageObserver;
+use App\Observers\ProductObserver;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Auth\Events\Registered;
@@ -35,6 +37,9 @@ class EventServiceProvider extends ServiceProvider
     protected $observers = [
         Image::class => [
             ImageObserver::class
+        ],
+        Product::class => [
+            ProductObserver::class
         ]
     ];
 

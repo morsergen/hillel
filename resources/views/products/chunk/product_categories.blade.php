@@ -10,6 +10,7 @@
         </p>
         <p>{{ $product->short_description }}</p>
         <a href="{{ route('products.show', $product) }}">Show</a>
+        @include('chunks.wish_list')
     </div>
 </div>
 

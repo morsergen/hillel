@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -52,6 +53,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Order[] $orders
  * @property-read int|null $orders_count
  * @method static \Illuminate\Database\Eloquent\Builder|User whereBalance($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $wishes
+ * @property-read int|null $wishes_count
  */
 class User extends Authenticatable
 {
@@ -109,6 +112,14 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    /**
+     * @return BelongsToMany
+     */
+    public function wishes(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'wish_list', 'user_id', 'product_id');
+    }
+
     protected function fullName(): Attribute
     {
         return new Attribute(
@@ -123,5 +134,10 @@ class User extends Authenticatable
         return new Attribute(
             get: fn() => $this->id . '_' . $this->email
         );
+    }
+
+    public function isFollover(Product $product)
+    {
+        return (bool)$product->followers()->find($this->id);
     }
 }
