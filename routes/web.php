@@ -25,6 +25,12 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+Route::get('language/{locale}', function($locale) {
+    app()->setLocale($locale);
+    session()->put('locale', $locale);
+    return redirect()->back();
+})->name('language.switch');
+
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function(){

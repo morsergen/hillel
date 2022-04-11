@@ -43,6 +43,14 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
 
+                        @foreach(config('app.locales.available') as $language => $locale)
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('language.switch', $locale) }}">
+                                    {{ $language }}
+                                </a>
+                            </li>
+                        @endforeach
+
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('cart.index') }}">
                                 <div style="position: relative;">
