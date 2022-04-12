@@ -12,6 +12,7 @@ class ProductController extends Controller
      */
     public function show(Product $product): Renderable
     {
-        return view('products.show', compact('product'));
+        $comments = $product->comments()->paginate();
+        return view('products.show', compact('product', 'comments'));
     }
 }

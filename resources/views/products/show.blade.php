@@ -72,6 +72,21 @@
             <h3>{{ $product->description }}</h3>
         </div>
     </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <h3>{{ __('Comments') }}</h3>
+            <div class="div_paginate">{{ $comments->links('admin/pagination/default') }}</div>
+        </div>
+        <div class="col-md-12">
+            @foreach($comments as $comment)
+                @include('comments/chunk/single_comment', ['comment' => $comment, 'model' => $product])
+            @endforeach
+        </div>
+        <div class="col-md-12">
+            @include('comments/chunk/form', ['model' => $product, 'route' => route('comment.store')])
+        </div>
+    </div>
 </div>
 @endsection
 
@@ -80,6 +95,22 @@
         $(function () {
             $('#addStar').change('.star', function () {
                 $(this).submit();
+            });
+
+            $(document).on ('click', '.reply', function () {
+                let form = $(this).closest('.reply-wrapper').find('form');
+                form.toggleClass('d-none');
+                form.find('.submit').val('Reply');
+                form.find('.parent_id').val($(this).parent('.reply-wrapper').data("comment-id"));
+            });
+
+            $(document).on ('click', '.edit', function () {
+                let comment_id = $(this).data('edit-id');
+                let comment = $('#comment-id-' + comment_id);
+                let form = comment.find('#comment-content-' + comment_id).find('form.update');
+                form.toggleClass('d-none');
+                form.find('.submit').val('Edit');
+                form.find('input.body').val(comment.find('#comment-content-' + comment_id).find('.comment-body').text());
             });
         });
     </script>
