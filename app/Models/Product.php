@@ -51,6 +51,14 @@ use willvincent\Rateable\Rateable;
  * @property-read int|null $products_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $followers
  * @property-read int|null $followers_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
+ * @property-read int|null $comments_count
+ * @property-read mixed $average_rating
+ * @property-read mixed $sum_rating
+ * @property-read mixed $user_average_rating
+ * @property-read mixed $user_sum_rating
+ * @property-read \Illuminate\Database\Eloquent\Collection|\willvincent\Rateable\Rating[] $ratings
+ * @property-read int|null $ratings_count
  */
 class Product extends Model
 {
@@ -98,6 +106,14 @@ class Product extends Model
     public function followers(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'wish_list', 'product_id', 'user_id');
+    }
+
+    /**
+     * @return MorphMany
+     */
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable')->whereNull('parent_id');
     }
 
     public function setThumbnailAttribute($image)

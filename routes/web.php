@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Ajax\DeleteImageController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\WishListController;
@@ -24,6 +25,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Auth::routes();
+
+Route::get('language/{locale}', function($locale) {
+    app()->setLocale($locale);
+    session()->put('locale', $locale);
+    return redirect()->back();
+})->name('language.switch');
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -71,4 +78,9 @@ Route::middleware(['auth'])->group(function() {
 
     Route::post('rating/{product}/add', [RatingController::class, 'add'])->name('rating.add');
 
+    Route::post('comment/store', [CommentsController::class, 'store'])->name('comment.store');
+    Route::post('comment/reply', [CommentsController::class, 'reply'])->name('comment.reply');
+    Route::post('comment/{comment}/update', [CommentsController::class, 'update'])
+        ->can('update', 'comment')
+        ->name('comment.update');
 });
