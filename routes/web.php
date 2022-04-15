@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Account\OrdersController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\ProductsController;
@@ -39,6 +40,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::resource('/categories', CategoryController::class);
     Route::resource('/products', ProductsController::class);
     Route::resource('/users', UsersController::class);
+
+    Route::resource('orders', \App\Http\Controllers\Admin\OrdersController::class)->only(['index', 'edit', 'update']);
 });
 
 Route::delete('ajax/image/{image}', DeleteImageController::class)->name('ajax.image.delete');
@@ -63,6 +66,16 @@ Route::prefix('account')->name('account.')->middleware(['auth'])->group(function
         ->name('editByUser');
 
     Route::get('wish-list', App\Http\Controllers\Account\WishListController::class)->name('wish-list');
+
+    Route::prefix('orders')->name('orders.')->group(function() {
+        Route::get('/', [OrdersController::class, 'index'])->name('index');
+        Route::get('/{order}', [OrdersController::class, 'show'])
+            ->can('view', 'order')
+            ->name('show');
+        Route::post('/{order}/cancel', [OrdersController::class, 'cancel'])
+            ->can('update', 'order')
+            ->name('cancel');
+    });
 });
 
 Route::middleware(['auth'])->group(function() {

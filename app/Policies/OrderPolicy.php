@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Request;
 
 class OrderPolicy
 {
@@ -30,7 +31,7 @@ class OrderPolicy
      */
     public function view(User $user, Order $order)
     {
-        return $user->id === $order->user_id;
+        return $this->is_admin($user) || $user->id === $order->user_id;
     }
 
     /**
@@ -53,7 +54,7 @@ class OrderPolicy
      */
     public function update(User $user, Order $order)
     {
-        //
+        return $this->is_admin($user) || $user->id === $order->user_id;
     }
 
     /**
@@ -90,5 +91,10 @@ class OrderPolicy
     public function forceDelete(User $user, Order $order)
     {
         //
+    }
+
+    private function is_admin(User $user)
+    {
+        return is_admin($user) && (Request::is('admin/*') || Request::is('admin'));
     }
 }

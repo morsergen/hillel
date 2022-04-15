@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\OrderStatus;
 use App\Repositories\Contracts\OrderRepositoryInterface;
 use App\Models\Order;
 use Auth;
@@ -25,5 +26,20 @@ class OrderRepository implements OrderRepositoryInterface
         }
 
         return $order;
+    }
+
+    public function cancel(Order $order)
+    {
+        if ($order->is_paid) {
+            $order->user->increment('balance', $order->total);
+        }
+
+        foreach ($order->products as $product) {
+            $product->increment('in_stock', $product->pivot->quantity);
+        }
+
+        $order->update([
+            'status_id' => OrderStatus::whereName(OrderStatus::STATUS_CANCELLED)->first()->id
+        ]);
     }
 }
