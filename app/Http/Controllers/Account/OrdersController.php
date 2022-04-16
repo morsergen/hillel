@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\ProcessOrderCancelJob;
 use App\Models\Order;
 use App\Models\OrderStatus;
 use App\Repositories\Contracts\OrderRepositoryInterface;
@@ -29,7 +30,7 @@ class OrdersController extends Controller
         }
 
         \DB::transaction(function() use ($repository, $order) {
-            $repository->cancel($order);
+            ProcessOrderCancelJob::dispatch($order);
         }, 5);
 
         return redirect()->back()->with('success', 'Order canceled');
