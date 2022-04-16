@@ -3,7 +3,6 @@
 namespace App\Notifications;
 
 use App\Mail\CreatedOrderForAdminMail;
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -27,7 +26,6 @@ class OrderCreatedAdminNotification extends Notification implements ShouldQueue
     public function __construct()
     {
         $this->queue = 'email_admin';
-        $this->to = User::whereRoleId(Role::getAdminRole()->id)->get();
     }
 
     /**
@@ -48,7 +46,7 @@ class OrderCreatedAdminNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new CreatedOrderForAdminMail($notifiable))->to($this->to);
+        return (new CreatedOrderForAdminMail($notifiable));
     }
 
     /**

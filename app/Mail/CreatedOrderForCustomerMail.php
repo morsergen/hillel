@@ -28,6 +28,9 @@ class CreatedOrderForCustomerMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('email.created_order_customer')->with(['order' => $this->order]);
+        return $this
+            ->to($this->order->user)
+            ->markdown('email.created_order_customer')
+            ->with(['order' => $this->order]);
     }
 }
