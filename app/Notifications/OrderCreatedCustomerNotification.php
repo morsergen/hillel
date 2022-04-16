@@ -39,7 +39,7 @@ class OrderCreatedCustomerNotification extends Notification implements ShouldQue
      */
     public function toMail($notifiable)
     {
-        return (new CreatedOrderForCustomerMail($notifiable));
+        return new CreatedOrderForCustomerMail($notifiable);
     }
 
     /**

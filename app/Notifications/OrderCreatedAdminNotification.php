@@ -46,7 +46,7 @@ class OrderCreatedAdminNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new CreatedOrderForAdminMail($notifiable));
+        return new CreatedOrderForAdminMail($notifiable);
     }
 
     /**
