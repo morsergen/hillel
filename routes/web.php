@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Account\OrdersController;
+use App\Http\Controllers\Account\Telegram\TelegramCallbackController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\ProductsController;
@@ -76,6 +77,9 @@ Route::prefix('account')->name('account.')->middleware(['auth'])->group(function
             ->can('update', 'order')
             ->name('cancel');
     });
+
+    Route::get('telegram/callback', TelegramCallbackController::class)->name('
+    ');
 });
 
 Route::middleware(['auth'])->group(function() {
