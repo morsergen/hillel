@@ -5,8 +5,10 @@ namespace App\Providers;
 use App\Listeners\UserLoginEventSubscriber;
 use App\Listeners\UserLogoutEventSubscriber;
 use App\Models\Image;
+use App\Models\Order;
 use App\Models\Product;
 use App\Observers\ImageObserver;
+use App\Observers\OrderObserver;
 use App\Observers\ProductObserver;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
@@ -40,6 +42,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         Product::class => [
             ProductObserver::class
+        ],
+        Order::class => [
+            OrderObserver::class
         ]
     ];
 

@@ -2,6 +2,10 @@
     {{ __('Account') }}
 </a>
 
+<a class="dropdown-item" href="{{route('account.orders.index')}}" role="button">
+    {{ __('My Orders') }}
+</a>
+
 <a class="dropdown-item" href="{{route('account.wish-list')}}" role="button">
     {{ __('Wish List') }}
 </a>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -78,5 +79,33 @@ class Order extends Model
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)->withPivot(['quantity', 'single_price']);
+    }
+
+    public function isCompleted(): Attribute
+    {
+        return new Attribute(
+            get: fn() => $this->status->name == OrderStatus::STATUS_COMPLETED
+        );
+    }
+
+    public function isCanceled(): Attribute
+    {
+        return new Attribute(
+            get: fn() => $this->status->name == OrderStatus::STATUS_CANCELLED
+        );
+    }
+
+    public function isPaid(): Attribute
+    {
+        return new Attribute(
+            get: fn() => $this->status->name == OrderStatus::STATUS_CANCELLED
+        );
+    }
+
+    public function isProgress(): Attribute
+    {
+        return new Attribute(
+            get: fn() => $this->status->name == OrderStatus::STATUS_IN_PROGRESS
+        );
     }
 }

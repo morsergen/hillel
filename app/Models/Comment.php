@@ -30,6 +30,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|Comment[] $replies
+ * @property-read int|null $replies_count
+ * @property-read \App\Models\User|null $user
  */
 class Comment extends Model
 {
