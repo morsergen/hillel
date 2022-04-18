@@ -78,8 +78,7 @@ Route::prefix('account')->name('account.')->middleware(['auth'])->group(function
             ->name('cancel');
     });
 
-    Route::get('telegram/callback', TelegramCallbackController::class)->name('
-    ');
+    Route::get('telegram/callback', TelegramCallbackController::class)->name('telegram.callback');
 });
 
 Route::middleware(['auth'])->group(function() {
