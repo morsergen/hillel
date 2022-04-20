@@ -9,12 +9,14 @@
         "bumbummen99/shoppingcart": "dev-master",
         "fruitcake/laravel-cors": "^2.0.5",
         "guzzlehttp/guzzle": "^7.2",
+        "laravel-notification-channels/telegram": "^2.0",
         "laravel/framework": "^9.0",
         "laravel/horizon": "^5.9",
         "laravel/sanctum": "^2.14",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.4",
         "predis/predis": "^1.1",
+        "pschocke/laravel-telegram-login-widget": "^2.0",
         "willvincent/laravel-rateable": "^3.0"
     },
     "require-dev": {
