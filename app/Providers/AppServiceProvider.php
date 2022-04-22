@@ -4,12 +4,15 @@ namespace App\Providers;
 
 use App\Repositories\CommentsRepository;
 use App\Repositories\Contracts\CommentsRepositoryInterface;
+use App\Services\Contracts\InvoicesServiceInterface;
+use App\Services\InvoicesService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
     public array $bindings = [
-        CommentsRepositoryInterface::class => CommentsRepository::class
+        CommentsRepositoryInterface::class => CommentsRepository::class,
+        InvoicesServiceInterface::class => InvoicesService::class,
     ];
 
     /**

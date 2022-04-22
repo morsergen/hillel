@@ -21,6 +21,7 @@
                             <td>{{ $order->total }}</td>
                             <td class="actions">
                                 <a href="{{route('account.orders.show', ['order'=> $order])}}"><i class="fa fa-eye"></i></a>
+                                <a href="{{route('order.generate.invoice', ['order'=> $order])}}"><i class="fa-solid fa-file-invoice"></i></a>
                             </td>
                         </tr>
                     @endforeach
