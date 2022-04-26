@@ -28,7 +28,7 @@ class ProductsTableSeeder extends Seeder
                     'price' => $row[6],
                     'discount' => $row[7],
                     'in_stock' => $row[8],
-                    'thumbnail' => $row[9],
+                    'thumbnail' => null,
                 ]);
             }
             fclose($handle);
