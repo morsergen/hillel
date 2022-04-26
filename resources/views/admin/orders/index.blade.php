@@ -23,6 +23,7 @@
                             <td>{{ $order->total }}</td>
                             <td class="actions">
                                 <a href="{{route('admin.orders.edit', ['order'=> $order])}}"><i class="fa fa-edit"></i></a>
+                                <a href="{{route('order.generate.invoice', ['order'=> $order])}}"><i class="fa-solid fa-file-invoice"></i></a>
                             </td>
                         </tr>
                     @endforeach

@@ -10,6 +10,7 @@ use App\Http\Controllers\Ajax\DeleteImageController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\WishListController;
@@ -99,4 +100,6 @@ Route::middleware(['auth'])->group(function() {
     Route::post('comment/{comment}/update', [CommentsController::class, 'update'])
         ->can('update', 'comment')
         ->name('comment.update');
+
+    Route::get('order/{order}/invoice', [InvoicesController::class, 'download'])->name('order.generate.invoice');
 });

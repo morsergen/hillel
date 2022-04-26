@@ -55,6 +55,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereBalance($value)
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $wishes
  * @property-read int|null $wishes_count
+ * @property string|null $telegram_id
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereTelegramId($value)
  */
 class User extends Authenticatable
 {

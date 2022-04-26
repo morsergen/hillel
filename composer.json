@@ -15,6 +15,8 @@
         "laravel/sanctum": "^2.14",
         "laravel/tinker": "^2.7",
         "laravel/ui": "^3.4",
+        "laraveldaily/laravel-invoices": "^3.0",
+        "league/flysystem-aws-s3-v3": "^3.0",
         "predis/predis": "^1.1",
         "pschocke/laravel-telegram-login-widget": "^2.0",
         "willvincent/laravel-rateable": "^3.0"
