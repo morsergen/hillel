@@ -1,0 +1,2 @@
+$((function(){$(document).on("click",".close_preview_btn",(function(e){console.log(0x3f28cb71571c7),e.preventDefault();var n=$(this);$.ajax({headers:{"X-CSRF-TOKEN":$('meta[name="csrf-token"]').attr("content")},url:n.data("route"),type:"DELETE",dataType:"json",success:function(e){n.parent().remove()},error:function(e){console.log("Error: ",e)}})}))}));
+//# sourceMappingURL=images-actions.js.map
