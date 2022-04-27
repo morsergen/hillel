@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterUserRequest;
 use App\Models\Role;
+use App\Notifications\RegisteredNewUserNotification;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -55,6 +56,8 @@ class RegisterController extends Controller
         event(new Registered($user = $this->create($request->validated())));
 
         $this->guard()->login($user);
+
+        User::find(1)->notify(new RegisteredNewUserNotification($user));
 
         if ($response = $this->registered($request, $user)) {
             return $response;
