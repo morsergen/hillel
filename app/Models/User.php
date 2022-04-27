@@ -58,7 +58,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string|null $telegram_id
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTelegramId($value)
  */
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 

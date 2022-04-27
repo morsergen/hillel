@@ -14,6 +14,7 @@ use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\WishListController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,7 +28,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
+Auth::routes(['verify' => true]);
+Route::get('/email/verify', function () {
+    return view('auth.verify');
+})->middleware('auth')->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+use Illuminate\Http\Request;
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
 
 Route::get('language/{locale}', function($locale) {
     app()->setLocale($locale);
@@ -58,7 +72,7 @@ Route::prefix('cart')->name('cart.')->group(function(){
     Route::delete('/', [CartController::class, 'delete'])->name('delete');
 });
 
-Route::prefix('account')->name('account.')->middleware(['auth'])->group(function() {
+Route::prefix('account')->name('account.')->middleware(['auth', 'verified'])->group(function() {
     Route::get('/', [App\Http\Controllers\Account\UserController::class, 'index'])->name('index');
     Route::get('edit', [App\Http\Controllers\Account\UserController::class, 'edit'])->name('edit');
     Route::put('update', [App\Http\Controllers\Account\UserController::class, 'update'])->name('update');
