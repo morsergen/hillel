@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\OrderStatus;
+use App\Models\Transaction;
 use App\Repositories\Contracts\OrderRepositoryInterface;
 use App\Models\Order;
 use Auth;
@@ -12,20 +13,22 @@ class OrderRepository implements OrderRepositoryInterface
 {
     public function create(array $requestData): Order
     {
-        $order = Auth::user()->orders()->create($requestData);
+        return \DB::transaction(function () use ($requestData) {
+            $order = Auth::user()->orders()->create($requestData);
 
-        foreach (Cart::instance('cart')->content() as $cartItem) {
-            if ($cartItem->model->in_stock < $cartItem->qty) {
-                throw new \Exception('Something went wrong');
+            foreach (Cart::instance('cart')->content() as $cartItem) {
+                if ($cartItem->model->in_stock < $cartItem->qty) {
+                    throw new \Exception('Something went wrong');
+                }
+                $order->products()->attach($cartItem->model, [
+                    'quantity' => $cartItem->qty,
+                    'single_price' => $cartItem->price
+                ]);
+                $cartItem->model->decrement('in_stock', (int)$cartItem->qty);
             }
-            $order->products()->attach($cartItem->model, [
-                'quantity' => $cartItem->qty,
-                'single_price' => $cartItem->price
-            ]);
-            $cartItem->model->decrement('in_stock', (int)$cartItem->qty);
-        }
 
-        return $order;
+            return $order;
+        });
     }
 
     public function cancel(Order $order)
@@ -41,5 +44,22 @@ class OrderRepository implements OrderRepositoryInterface
         $order->update([
             'status_id' => OrderStatus::whereName(OrderStatus::STATUS_CANCELLED)->first()->id
         ]);
+    }
+
+    public function checkResult($result)
+    {
+        if ($result['status'] === Transaction::STATUS_COMPLETED) {
+            $transaction = Transaction::create([
+                'vendor_payment_id' => $result['id'],
+                'payment_system' => Transaction::PAYMENT_SYSTEM_PAYPAL,
+                'user_id' => auth()->id(),
+                'status' => Transaction::STATUS_COMPLETED,
+            ]);
+
+            $order = Order::whereVendorOrderId($result['id'])->first();
+            $order?->update(['transaction_id' => $transaction->id]);
+            $order?->status()->associate(OrderStatus::whereName(OrderStatus::STATUS_COMPLETED)->first())->save();
+            Cart::instance('cart')->destroy();
+        }
     }
 }

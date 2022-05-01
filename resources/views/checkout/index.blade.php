@@ -9,7 +9,7 @@
         </div>
         <hr>
         @if(\Gloudemans\Shoppingcart\Facades\Cart::instance('cart')->count() > 0)
-            <form action="{{ route('order.create') }}" method="POST">
+            <form action="{{ route('order.create') }}" method="POST" id="order-form">
                 @csrf
                 <div class="row justify-content-center">
                     <div class="col-md-6">
@@ -34,8 +34,9 @@
                 </div>
                 <hr>
                 <div class="row justify-content-center">
-                    <div class="text-center">
-                        <input type="submit" class="btn btn-success" value="{{ __('Pay') }}">
+                    <div class="col-md-6 text-center">
+                        @include('checkout.payments.paypal')
+{{--                        <input type="submit" class="btn btn-success" value="{{ __('Pay') }}">--}}
                     </div>
                 </div>
             </form>

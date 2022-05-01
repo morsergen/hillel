@@ -7,7 +7,9 @@ use App\Repositories\Contracts\CommentsRepositoryInterface;
 use App\Services\AwsPublicLinkService;
 use App\Services\Contracts\AwsPublicLinkInterface;
 use App\Services\Contracts\InvoicesServiceInterface;
+use App\Services\Contracts\PayPalServiceInterface;
 use App\Services\InvoicesService;
+use App\Services\PayPalService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,6 +18,7 @@ class AppServiceProvider extends ServiceProvider
         CommentsRepositoryInterface::class => CommentsRepository::class,
         InvoicesServiceInterface::class => InvoicesService::class,
         AwsPublicLinkInterface::class => AwsPublicLinkService::class,
+        PayPalServiceInterface::class => PayPalService::class,
     ];
 
     /**

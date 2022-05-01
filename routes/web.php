@@ -12,6 +12,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\InvoicesController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\Payments\PayPalPaymentController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\WishListController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -99,8 +100,8 @@ Route::prefix('account')->name('account.')->middleware(['auth', 'verified'])->gr
 Route::middleware(['auth'])->group(function() {
     Route::get('checkout', CheckoutController::class)->name('checkout');
     Route::post('order', [OrderController::class, 'create'])->name('order.create');
-    Route::get('thank-you-page/{order}', [OrderController::class, 'thankYouPage'])
-        ->can('view', 'order')
+    Route::get('thank-you-page/{vendor_order_id}', [OrderController::class, 'thankYouPage'])
+        //->can('view', 'order')
         ->name('thank-you-page');
     Route::get('error-page', [OrderController::class, 'errorPage'])->name('error-page');
 
@@ -116,4 +117,9 @@ Route::middleware(['auth'])->group(function() {
         ->name('comment.update');
 
     Route::get('order/{order}/invoice', [InvoicesController::class, 'download'])->name('order.generate.invoice');
+});
+
+Route::namespace('Payments')->prefix('paypal')->group(function() {
+    Route::post('order/create', [PayPalPaymentController::class, 'create'])->name('paypal.create');
+    Route::post('order/{order_id}/capture', [PayPalPaymentController::class, 'capture'])->name('paypal.capture');
 });

@@ -17,8 +17,8 @@ class OrderObserver
      */
     public function created(Order $order)
     {
-        $order->notify(new OrderCreatedAdminNotification());
-        $order->notify(new OrderCreatedCustomerNotification());
+        //$order->notify(new OrderCreatedAdminNotification());
+        //$order->notify(new OrderCreatedCustomerNotification());
     }
 
     /**

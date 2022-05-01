@@ -57,6 +57,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read int|null $wishes_count
  * @property string|null $telegram_id
  * @method static \Illuminate\Database\Eloquent\Builder|User whereTelegramId($value)
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Transaction[] $transactions
+ * @property-read int|null $transactions_count
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -121,6 +123,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function wishes(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'wish_list', 'user_id', 'product_id');
+    }
+
+    /**
+     * @return HasMany
+     */
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
     }
 
     protected function fullName(): Attribute
