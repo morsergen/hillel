@@ -46,7 +46,7 @@
                     </ul>
 
                     <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ms-auto">
+                    <ul class="navbar-nav ms-auto navbar-right">
 
                         @foreach(config('app.locales.available') as $language => $locale)
                             <li class="nav-item">
