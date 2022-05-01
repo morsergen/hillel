@@ -51,9 +51,13 @@
             const errorClass = 'is-invalid';
 
             return $.ajax({
-                url: '/paypal/order/create/',
-                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                url: '/paypal/order/create',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'Accept': 'application/json'
+                },
                 type: 'POST',
+                method: 'POST',
                 dataType: 'json',
                 data: getFields(),
                 beforeSend: function () {
@@ -78,7 +82,7 @@
         // Call your server to finalize the transaction
         onApprove: function(data, actions) {
             if (data.hasOwnProperty('orderID')) {
-                return fetch('/paypal/order/' + data.orderID + '/capture/', {
+                return fetch('/paypal/order/' + data.orderID + '/capture', {
                     method: 'post',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
