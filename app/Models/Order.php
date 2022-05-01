@@ -48,6 +48,11 @@ use Illuminate\Notifications\Notifiable;
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereUserId($value)
  * @mixin \Eloquent
+ * @property string|null $vendor_order_id
+ * @property string|null $transaction_id
+ * @property-read \App\Models\Transaction|null $transaction
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereTransactionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereVendorOrderId($value)
  */
 class Order extends Model
 {
@@ -64,6 +69,8 @@ class Order extends Model
         'city',
         'address',
         'total',
+        'vendor_order_id',
+        'transaction_id',
     ];
 
     public function user(): BelongsTo
@@ -79,6 +86,11 @@ class Order extends Model
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)->withPivot(['quantity', 'single_price']);
+    }
+
+    public function transaction(): BelongsTo
+    {
+        return $this->belongsTo(Transaction::class);
     }
 
     public function isCompleted(): Attribute
