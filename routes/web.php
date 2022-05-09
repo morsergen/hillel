@@ -100,8 +100,8 @@ Route::prefix('account')->name('account.')->middleware(['auth', 'verified'])->gr
 Route::middleware(['auth'])->group(function() {
     Route::get('checkout', CheckoutController::class)->name('checkout');
     Route::post('order', [OrderController::class, 'create'])->name('order.create');
-    Route::get('thank-you-page/{vendor_order_id}', [OrderController::class, 'thankYouPage'])
-        //->can('view', 'order')
+    Route::get('thank-you-page/{order}', [OrderController::class, 'thankYouPage'])
+        ->can('view', 'order')
         ->name('thank-you-page');
     Route::get('error-page', [OrderController::class, 'errorPage'])->name('error-page');
 

@@ -11,9 +11,8 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 
 class OrderController extends Controller
 {
-    public function thankYouPage(string $vendorOrderId)
+    public function thankYouPage(Order $order)
     {
-        $order = Order::whereVendorOrderId($vendorOrderId)->first();
         return view('pages.thank-you-page', compact('order'));
     }
 

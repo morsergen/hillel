@@ -64,18 +64,21 @@
                     $('.invalid-feedback').remove();
                     $(`.${errorClass}`).removeClass(errorClass);
                 },
+                error: function(error) {
+                    const responseJson = error.responseJSON;
+                    if (responseJson !== 'undefined') {
+                        let errorTemplate = '<span class="invalid-feedback"><strong>#####</strong></span>';
+                        for(const [field, message] of Object.entries(responseJson.errors)) {
+                            let $input = $(`input[name="${field}"]`);
+                            $input.addClass(errorClass);
+                            $input.after(errorTemplate.replace('#####', message[0]));
+                        }
+                    }
+                },
             }).then(function(order) {
                 return order.vendor_order_id;
-            }).fail(function(error, qwertym, qwqwqw) {
-                const responseJson = error.responseJSON;
-                if (responseJson !== 'undefined') {
-                    let errorTemplate = '<span class="invalid-feedback"><strong>#####</strong></span>';
-                    for(const [field, message] of Object.entries(responseJson.errors)) {
-                        let $input = $(`input[name="${field}"]`);
-                        $input.addClass(errorClass);
-                        $input.after(errorTemplate.replace('#####', message[0]));
-                    }
-                }
+            }).catch(function(){
+                return;
             });
         },
 
@@ -107,7 +110,9 @@
                         return false;
                     }
 
-                    window.location.href = `/thank-you-page/${orderData.id}`;
+                    if (orderData.order_id) {
+                        window.location.href = `/thank-you-page/${orderData.order_id}`;
+                    }
                 });
             }
         }

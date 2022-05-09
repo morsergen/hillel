@@ -39,12 +39,12 @@ class PayPalPaymentController extends Controller
         return response()->json($order);
     }
 
-    public function capture(string $orderId, OrderRepositoryInterface $orderRepository)
+    public function capture(string $vendorOrderId, OrderRepositoryInterface $orderRepository)
     {
         \DB::beginTransaction();
         try {
-            $result = $this->payPalClient->capturePaymentOrder($orderId);
-            $orderRepository->checkResult($result);
+            $result = $this->payPalClient->capturePaymentOrder($vendorOrderId);
+            $result['order_id'] = $orderRepository->checkResult($result);
             \DB::commit();
             return response()->json($result);
         } catch (\Exception $e) {

@@ -48,18 +48,16 @@ class OrderRepository implements OrderRepositoryInterface
 
     public function checkResult($result)
     {
-        if ($result['status'] === Transaction::STATUS_COMPLETED) {
-            $transaction = Transaction::create([
-                'vendor_payment_id' => $result['id'],
-                'payment_system' => Transaction::PAYMENT_SYSTEM_PAYPAL,
-                'user_id' => auth()->id(),
-                'status' => Transaction::STATUS_COMPLETED,
-            ]);
+        $data = null;
 
-            $order = Order::whereVendorOrderId($result['id'])->first();
-            $order?->update(['transaction_id' => $transaction->id]);
-            $order?->status()->associate(OrderStatus::whereName(OrderStatus::STATUS_COMPLETED)->first())->save();
+        if ($result['status'] === Transaction::STATUS_COMPLETED) {
+            $order = Order::whereVendorOrderId($result['id'])->firstOrFail();
+            $order->update(['transaction_id' => $result["purchase_units"][0]["payments"]["captures"][0]["id"]]);
+            $order->status()->associate(OrderStatus::whereName(OrderStatus::STATUS_COMPLETED)->first())->save();
             Cart::instance('cart')->destroy();
+            $data = $order->id;
         }
+
+        return $data;
     }
 }
