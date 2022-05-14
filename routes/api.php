@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('login', AuthController::class)->middleware(['middleware' => 'throttle:10,1']);
+
+Route::middleware(['api', 'auth:sanctum', 'api_version:v1'])->prefix('v1')->name('api.')->group(function(){
+    require_once base_path('routes/api/v1.php');
+});
+
+Route::middleware(['api', 'auth:sanctum', 'api_version:v2'])->prefix('v2')->name('api.')->group(function(){
+    require_once base_path('routes/api/v2.php');
+});
+
+Route::middleware(['api', 'auth:sanctum', 'admin', 'api_version:v2'])->prefix('admin/v2')->name('api.admin.')->group(function(){
+    require_once base_path('routes/api/admin/v2.php');
 });

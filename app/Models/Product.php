@@ -119,7 +119,7 @@ class Product extends Model
     public function setThumbnailAttribute($image)
     {
         if (env('APP_ENV') == 'testing') {
-            $this->attributes['thumbnail'] = $image;
+            $this->attributes['thumbnail'] = 'image';
         } else {
             if (!empty($this->attributes['thumbnail'])) {
                 FileUploadService::remove($this->attributes['thumbnail']);

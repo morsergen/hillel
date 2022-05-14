@@ -204,4 +204,5 @@ return [
         // ...
     ])->toArray(),
 
+    'actual_api_version' => 2,
 ];
